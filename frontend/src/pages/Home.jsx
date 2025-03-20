@@ -10,14 +10,15 @@ const Home = () => {
     const [typedText, setTypedText] = useState('');
     const [errors, setErrors] = useState(0);
     const [wpm, setWpm] = useState(0);
-    const [successGif, setSuccessGif] = useState(false);  // Contrôle l'affichage du GIF
+    const [successGif, setSuccessGif] = useState(false);
 
     useEffect(() => {
         axios.get('http://localhost:8000/api/lessons/')
-        .then(response => setLessons(response.data))
-        .catch(error => console.error('Erreur lors du chargement des leçons:', error));
+            .then(response => setLessons(response.data))
+            .catch(error => console.error('Erreur lors du chargement des leçons:', error));
     }, []);
 
+    // Calcul de la vitesse de frappe
     useEffect(() => {
         if (typedText.length > 0 && startTime) {
             const timeSpent = (Date.now() - startTime) / 1000 / 60; // en minutes
@@ -25,46 +26,52 @@ const Home = () => {
         }
     }, [typedText]);
 
-    const handleLessonChange = (e) => {
-        setSelectedLesson(e.target.value);
-        setTypedText('');
-        setInputText(lessons.find(lesson => lesson.id === parseInt(e.target.value)).content);
-        setStartTime(Date.now());
-        setErrors(0);
-        setWpm(0);
-        setSuccessGif(false); // Réinitialiser le GIF
-    };
+    // Réagir au changement de leçon
+    useEffect(() => {
+        if (selectedLesson) {
+            const selected = lessons.find(lesson => lesson.id === parseInt(selectedLesson));
+            setInputText(selected ? selected.content : '');
+            setTypedText('');
+            setErrors(0);
+            setStartTime(Date.now());
+            setWpm(0);
+            setSuccessGif(false);
+        }
+    }, [selectedLesson, lessons]);
 
     const handleKeyPress = (e) => {
+        if (document.activeElement.tagName === "SELECT") {
+            return;
+        }
+    
         const nextChar = inputText[typedText.length];
         if (!nextChar) return;
-
+    
         setTypedText(prev => prev + e.key);
         setErrors(prevErrors => (e.key !== nextChar ? prevErrors + 1 : prevErrors));
-
-        // Vérifie si l'utilisateur a terminé la leçon
+    
         if (typedText.length + 1 === inputText.length) {
-            setSuccessGif(true);  // Afficher le GIF quand l'utilisateur a terminé
+            setSuccessGif(true);
         }
     };
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [typedText, inputText, errors]);
+    }, [typedText, inputText]);
 
     return (
         <div className="p-4">
-            <h1 className="text-3xl font-bold mb-4">Apprentissage du clavier</h1>
+            <h2 className="text-2xl font-bold mb-4">Choix de la leçon :</h2>
 
-            <select value={selectedLesson} onChange={handleLessonChange} className="mb-4 p-2 border rounded">
+            <select value={selectedLesson} onChange={e => setSelectedLesson(e.target.value)} className="mb-4 p-2 border-4 border-purple-400 rounded">
                 <option value="">Choisir une leçon</option>
                 {lessons.map((lesson) => (
                     <option key={lesson.id} value={lesson.id}>{lesson.title}</option>
                 ))}
             </select>
 
-            <div className="w-full h-40 border p-2 mb-4 bg-white text-lg font-mono">
+            <div className="w-full h-40 border-4 border-lime-400 rounded p-2 mb-4 bg-white text-lg font-mono">
                 {inputText.split('').map((char, index) => (
                     <span
                         key={index}
@@ -88,7 +95,6 @@ const Home = () => {
                 <p>Vitesse : {wpm} MPM</p>
             </div>
 
-            {/* Centrer le GIF sur la page et l'afficher uniquement lorsque l'utilisateur a terminé */}
             {successGif && (
                 <div className="flex justify-center">
                     <GifDisplay successGif={successGif} />
@@ -99,4 +105,3 @@ const Home = () => {
 };
 
 export default Home;
-

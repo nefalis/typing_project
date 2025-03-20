@@ -8,7 +8,6 @@ import gif6 from '../assets/gif6.gif';
 import gif7 from '../assets/gif7.gif';
 
 const GifDisplay = ({ successGif }) => {
-  // Liste des GIFs importés
     const gifList = [
         gif1,
         gif2,

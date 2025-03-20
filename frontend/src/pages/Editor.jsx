@@ -59,20 +59,23 @@ const Editor = () => {
 
     return (
         <div className="p-4">
-        <h1 className="text-3xl font-bold mb-4">Éditeur de leçons</h1>
+        <h2 className="text-3xl font-bold mb-4">Éditeur de leçons</h2>
         <form onSubmit={handleSubmit} className="mb-4">
-            <input type="text" placeholder="Titre" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded mb-2" required />
-            <textarea placeholder="Contenu" value={content} onChange={(e) => setContent(e.target.value)} className="w-full p-2 border rounded mb-2" required></textarea>
-            <button type="submit" className="bg-blue p-2 rounded hover:font-bold shadow-lg">{editingLesson ? 'Modifier' : 'Créer'} la leçon</button>
-            {editingLesson && <button type="button" onClick={resetForm} className="ml-2 p-2 bg-gray-400 rounded hover:font-bold">Annuler</button>}
+            <input type="text" placeholder="Titre" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border-4 border-lime-400 rounded mb-2" required />
+            <textarea placeholder="Contenu" value={content} onChange={(e) => setContent(e.target.value)} className="w-full p-2 border-4 border-lime-400 rounded mb-2" required></textarea>
+            <button type="submit" className="bg-green p-2 rounded hover:hover:bg-lime-400 shadow-lg">{editingLesson ? 'Modifier' : 'Créer'} la leçon</button>
+            {editingLesson && <button type="button" onClick={resetForm} className="ml-2 p-2 bg-gray rounded hover:bg-gray-400">Annuler</button>}
         </form>
-        <ul>
+
+        
+        <ul className='mt-10'>
+            <h2 className="text-3xl font-bold mb-4">Liste des leçons</h2>
             {lessons.map((lesson) => (
-            <li key={lesson.id} className="mb-2 p-2 border rounded flex justify-between items-center">
+            <li key={lesson.id} className="mb-2 p-2 border-4 border-pink rounded flex justify-between items-center">
                 <span>{lesson.title}</span>
                 <div>
-                <button onClick={() => handleEdit(lesson)} className="bg-blue p-1 rounded mr-2 hover:font-bold shadow-lg">Modifier</button>
-                <button onClick={() => handleDelete(lesson.id)} className="bg-red p-1 rounded hover:font-bold shadow-lg">Supprimer</button>
+                <button onClick={() => handleEdit(lesson)} className="bg-peach p-1 rounded mr-2 hover:bg-yellow-400 shadow-lg">Modifier</button>
+                <button onClick={() => handleDelete(lesson.id)} className="bg-red p-1 rounded hover:bg-red-500 shadow-lg">Supprimer</button>
                 </div>
             </li>
             ))}
