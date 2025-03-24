@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 const Editor = () => {
     const [lessons, setLessons] = useState([]);
@@ -19,23 +20,21 @@ const Editor = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Données envoyées :", { title, content });
 
         if (editingLesson) {
-        axios.put(`http://localhost:8000/api/lessons/${editingLesson.id}/`, { title, content })
-            .then(() => {
-            fetchLessons();
-            resetForm();
-            })
-            .catch(error => console.error('Erreur lors de la mise à jour:', error));
+            axios.put(`http://localhost:8000/api/lessons/${editingLesson.id}/`, { title, content })
+                .then(() => {
+                    fetchLessons();
+                    resetForm();
+                })
+                .catch(error => console.error('Erreur lors de la mise à jour:', error));
         } else {
-        axios.post('http://localhost:8000/api/lessons/', { title, content })
-            .then((response) => {
-            console.log("Réponse API :", response.data);
-            fetchLessons();
-            resetForm();
-            })
-            .catch(error => console.error('Erreur lors de la création:', error));
+            axios.post('http://localhost:8000/api/lessons/', { title, content })
+                .then(() => {
+                    fetchLessons();
+                    resetForm();
+                })
+                .catch(error => console.error('Erreur lors de la création:', error));
         }
     };
 
@@ -58,30 +57,53 @@ const Editor = () => {
     };
 
     return (
-        <div className="p-4">
-        <h2 className="text-3xl font-bold mb-4">Éditeur de leçons</h2>
-        <form onSubmit={handleSubmit} className="mb-4">
-            <input type="text" placeholder="Titre" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border-4 border-lime-400 rounded mb-2" required />
-            <textarea placeholder="Contenu" value={content} onChange={(e) => setContent(e.target.value)} className="w-full p-2 border-4 border-lime-400 rounded mb-2" required></textarea>
-            <button type="submit" className="bg-green p-2 rounded hover:hover:bg-lime-400 shadow-lg">{editingLesson ? 'Modifier' : 'Créer'} la leçon</button>
-            {editingLesson && <button type="button" onClick={resetForm} className="ml-2 p-2 bg-gray rounded hover:bg-gray-400">Annuler</button>}
-        </form>
-
-        
-        <ul className='mt-10'>
-            <h2 className="text-3xl font-bold mb-4">Liste des leçons</h2>
-            {lessons.map((lesson) => (
-            <li key={lesson.id} className="mb-2 p-2 border-4 border-pink rounded flex justify-between items-center">
-                <span>{lesson.title}</span>
-                <div>
-                <button onClick={() => handleEdit(lesson)} className="bg-peach p-1 rounded mr-2 hover:bg-yellow-400 shadow-lg">Modifier</button>
-                <button onClick={() => handleDelete(lesson.id)} className="bg-red p-1 rounded hover:bg-red-500 shadow-lg">Supprimer</button>
+        <motion.div 
+            className="p-6  mx-auto shadow-xl  bg-gradient-to-r from-blue-300 to-green-300"
+            initial={{ opacity: 0, y: -20 }} 
+            animate={{ opacity: 1, y: 0 }}
+        >
+            <h2 className="text-4xl font-bold text-center text-white mb-6">Éditeur de leçon</h2>
+            <form onSubmit={handleSubmit} className="mb-6">
+                <input 
+                    type="text" 
+                    placeholder="Titre" 
+                    value={title} 
+                    onChange={(e) => setTitle(e.target.value)} 
+                    className="w-full p-3 border-4 bg-white border-green rounded-xl mb-4 focus:ring-4 focus:ring-green-300 text-xl"
+                    required 
+                />
+                <textarea 
+                    placeholder="Contenu de la leçon" 
+                    value={content} 
+                    onChange={(e) => setContent(e.target.value)} 
+                    className="w-full p-3 border-4 bg-white border-green rounded-xl mb-4 h-40 focus:ring-4 focus:ring-green-300 text-lg"
+                    required
+                ></textarea>
+                <div className="flex justify-between">
+                    <button type="submit" className="  bg-green-400 text-white p-3 rounded-xl text-lg hover:bg-green-600 shadow-lg">{editingLesson ? 'Modifier' : 'Créer'} la leçon</button>
+                    {editingLesson && <button type="button" onClick={resetForm} className="p-3 bg-gray-400 text-white rounded-xl text-lg hover:bg-gray-500 shadow-lg">Annuler</button>}
                 </div>
-            </li>
-            ))}
-        </ul>
-        </div>
+            </form>
+
+            <h2 className="text-3xl font-bold text-white mt-8 mb-4">Liste des Leçons</h2>
+            <ul className="space-y-3">
+                {lessons.map((lesson) => (
+                    <motion.li 
+                        key={lesson.id} 
+                        className="p-4 border-4 border-blue rounded-xl flex justify-between items-center bg-white shadow-md"
+                        whileHover={{ scale: 1.02 }}
+                    >
+                        <span className="text-xl font-semibold text-blue-800">{lesson.title}</span>
+                        <div>
+                            <button onClick={() => handleEdit(lesson)} className="bg-yellow-400 text-white p-2 rounded-lg mr-2 hover:bg-yellow-500 shadow-lg">Modifier</button>
+                            <button onClick={() => handleDelete(lesson.id)} className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 shadow-lg">Supprimer</button>
+                        </div>
+                    </motion.li>
+                ))}
+            </ul>
+        </motion.div>
     );
 };
 
 export default Editor;
+
