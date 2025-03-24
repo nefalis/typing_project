@@ -44,12 +44,19 @@ const Home = () => {
             return;
         }
     
+        // Récupère le prochain caractère attendu
         const nextChar = inputText[typedText.length];
         if (!nextChar) return;
+
+        if (e.key.length > 1) {
+            return;
+        }
     
+        // Ajoute le caractère tapé et compare exactement avec le texte attendu
         setTypedText(prev => prev + e.key);
         setErrors(prevErrors => (e.key !== nextChar ? prevErrors + 1 : prevErrors));
     
+        // Vérifie si l'utilisateur a terminé la leçon
         if (typedText.length + 1 === inputText.length) {
             setSuccessGif(true);
         }
@@ -71,7 +78,7 @@ const Home = () => {
                 ))}
             </select>
 
-            <div className="w-full h-40 border-4 border-lime-400 rounded p-2 mb-4 bg-white text-lg font-mono">
+            <div className="w-full h-40 border-4 border-lime-400 rounded p-2 mb-4 bg-white text-3xl font-mono">
                 {inputText.split('').map((char, index) => (
                     <span
                         key={index}
