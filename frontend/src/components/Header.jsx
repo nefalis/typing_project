@@ -8,7 +8,7 @@ const Header = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex justify-between items-center mb-4 p-4 h-20 bg-gradient-to-r from-purple-400 to-blue-500 shadow-md "
+            className="flex justify-between items-center mb-4 p-4 h-20 bg-gradient-to-r from-purple-400 to-blue-400 shadow-md "
         >
             <h2 className="text-3xl font-bold text-white drop-shadow-md">Entraînement au clavier</h2>
             <nav >
