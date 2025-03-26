@@ -6,3 +6,7 @@ __pycache__/
 /node_modules
 /.pnp
 .pnp.js
+doc/build
+.pytest_cache
+staticfiles
+django_debug.log
