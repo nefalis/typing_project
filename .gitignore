@@ -10,3 +10,4 @@ doc/build
 .pytest_cache
 staticfiles
 django_debug.log
+node_modules
