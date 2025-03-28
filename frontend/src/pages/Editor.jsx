@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
 const Editor = () => {
     const [lessons, setLessons] = useState([]);
     const [title, setTitle] = useState('');
@@ -13,7 +16,7 @@ const Editor = () => {
     }, []);
 
     const fetchLessons = () => {
-        axios.get('http://localhost:8000/api/lessons/')
+        axios.get(`${API_BASE_URL}/api/lessons/`)
         .then(response => setLessons(response.data))
         .catch(error => console.error('Erreur lors du chargement des leçons:', error));
     };
@@ -22,14 +25,14 @@ const Editor = () => {
         e.preventDefault();
 
         if (editingLesson) {
-            axios.put(`http://localhost:8000/api/lessons/${editingLesson.id}/`, { title, content })
+            axios.put(`${API_BASE_URL}/api/lessons/${editingLesson.id}/`, { title, content })
                 .then(() => {
                     fetchLessons();
                     resetForm();
                 })
                 .catch(error => console.error('Erreur lors de la mise à jour:', error));
         } else {
-            axios.post('http://localhost:8000/api/lessons/', { title, content })
+            axios.post('${API_BASE_URL}/api/lessons/', { title, content })
                 .then(() => {
                     fetchLessons();
                     resetForm();
@@ -45,7 +48,7 @@ const Editor = () => {
     };
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:8000/api/lessons/${id}/`)
+        axios.delete(`${API_BASE_URL}/api/lessons/${id}/`)
         .then(() => fetchLessons())
         .catch(error => console.error('Erreur lors de la suppression:', error));
     };

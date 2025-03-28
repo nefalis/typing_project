@@ -3,6 +3,9 @@ import axios from 'axios';
 import GifDisplay from '../components/GifDisplay';
 import { motion } from 'framer-motion';
 
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
 const Home = () => {
     const [lessons, setLessons] = useState([]);
     const [selectedLesson, setSelectedLesson] = useState('');
@@ -14,7 +17,7 @@ const Home = () => {
     const [successGif, setSuccessGif] = useState(false);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/lessons/')
+        axios.get(`${API_BASE_URL}/api/lessons/`)
             .then(response => setLessons(response.data))
             .catch(error => console.error('Erreur lors du chargement des leçons:', error));
     }, []);
