@@ -3,7 +3,6 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const Editor = () => {
     const [lessons, setLessons] = useState([]);
@@ -16,7 +15,7 @@ const Editor = () => {
     }, []);
 
     const fetchLessons = () => {
-        axios.get(`${API_BASE_URL}/api/lessons/`)
+        axios.get(`http://localhost:8000/api/lessons/`)
         .then(response => setLessons(response.data))
         .catch(error => console.error('Erreur lors du chargement des leçons:', error));
     };
@@ -48,7 +47,7 @@ const Editor = () => {
     };
 
     const handleDelete = (id) => {
-        axios.delete(`${API_BASE_URL}/api/lessons/${id}/`)
+        axios.delete(`http://localhost:8000/api/lessons/${id}/`)
         .then(() => fetchLessons())
         .catch(error => console.error('Erreur lors de la suppression:', error));
     };
