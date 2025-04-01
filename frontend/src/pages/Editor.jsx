@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 const Editor = () => {
     const [lessons, setLessons] = useState([]);
@@ -15,7 +15,7 @@ const Editor = () => {
     }, []);
 
     const fetchLessons = () => {
-        axios.get(`http://localhost:8000/api/lessons/`)
+        axios.get(`${API_BASE_URL}/api/lessons/`)
         .then(response => setLessons(response.data))
         .catch(error => console.error('Erreur lors du chargement des leçons:', error));
     };
@@ -47,7 +47,7 @@ const Editor = () => {
     };
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:8000/api/lessons/${id}/`)
+        axios.delete(`${API_BASE_URL}/api/lessons/${id}/`)
         .then(() => fetchLessons())
         .catch(error => console.error('Erreur lors de la suppression:', error));
     };

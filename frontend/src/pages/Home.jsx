@@ -4,7 +4,7 @@ import GifDisplay from '../components/GifDisplay';
 import { motion } from 'framer-motion';
 
 
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 const Home = () => {
     const [lessons, setLessons] = useState([]);
@@ -17,7 +17,7 @@ const Home = () => {
     const [successGif, setSuccessGif] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/lessons/`)
+        axios.get(`${API_BASE_URL}/api/lessons/`)
             .then(response => setLessons(response.data))
             .catch(error => console.error('Erreur lors du chargement des leçons:', error));
     }, []);

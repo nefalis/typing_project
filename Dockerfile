@@ -1,35 +1,40 @@
-# Étape 1: Build du frontend React
-FROM node:18 AS frontend
+# Étape 1 : Build du frontend
+FROM node:18-alpine AS frontend
 
 WORKDIR /app/frontend
-COPY frontend/ . 
 
-RUN npm install && npm run build
+# Copie du code source du frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm install
 
-# Étape 2: Setup du backend Django
-FROM python:3.10-alpine AS backend
+COPY frontend ./
+RUN npm run build
+RUN ls -l /app/frontend/dist/
 
-WORKDIR /app
+# Étape 2 : Build du backend
+FROM python:3.10-alpine
 
-# Copier le code du backend
-COPY typing_back/ ./typing_back/
+WORKDIR /typing_project
 
-# Copier le fichier requirements.txt
-COPY typing_back/requirements.txt .
+# Copier le backend
+COPY typing_back ./
 
-# Copier le build du front dans les fichiers statiques de Django
-COPY --from=frontend /app/frontend/dist/ /app/typing_back/staticfiles/
+# Copier les fichiers générés par le frontend dans le dossier des fichiers statiques du backend
+COPY --from=frontend /app/frontend/dist/ /typing_project/staticfiles/
 
-# Installer les dépendances
+RUN ls -l /typing_project/staticfiles/
+
+# Installation des dépendances backend
 RUN pip install -r requirements.txt
 
-# Exécuter les migrations et collecter les fichiers statiques
-WORKDIR /app/typing_back
+# Exécution des migrations Django
 RUN python manage.py migrate
+
+# Collecte des fichiers statiques
 RUN python manage.py collectstatic --noinput
 
-# Exposer le port du serveur Django
+# Exposer le port
 EXPOSE 8000
 
-# Lancer l’application Django avec Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "typing_back.wsgi:application"]
+# Lancer le serveur Django
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
