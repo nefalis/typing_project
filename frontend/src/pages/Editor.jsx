@@ -31,7 +31,7 @@ const Editor = () => {
                 })
                 .catch(error => console.error('Erreur lors de la mise à jour:', error));
         } else {
-            axios.post('${API_BASE_URL}/api/lessons/', { title, content })
+            axios.post(`${API_BASE_URL}/api/lessons/`, { title, content })
                 .then(() => {
                     fetchLessons();
                     resetForm();
