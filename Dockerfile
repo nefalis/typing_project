@@ -20,9 +20,10 @@ WORKDIR /typing_project
 COPY typing_back ./
 
 # Copier les fichiers générés par le frontend dans le dossier des fichiers statiques du backend
-COPY --from=frontend /app/frontend/dist/ /typing_project/staticfiles/
+# COPY --from=frontend /app/frontend/dist/ /typing_project/staticfiles/
+COPY /frontend/dist /typing_back/staticfiles
 
-RUN ls -l /typing_project/staticfiles/
+RUN ls -l /typing_back/staticfiles/
 
 # Installation des dépendances backend
 RUN pip install -r requirements.txt
