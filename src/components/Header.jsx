@@ -16,9 +16,6 @@ const Header = () => {
                     <motion.li whileHover={{ scale: 1.1 }} className='flex justify-center rounded-lg p-2 w-2/3 bg-green-400 hover:bg-green-500 shadow-lg'>
                         <NavLink to="/" className="text-white font-semibold">Accueil</NavLink>
                     </motion.li>
-                    <motion.li whileHover={{ scale: 1.1 }} className='flex justify-center rounded-lg p-2 w-2/3 bg-purple-400 hover:bg-purple-500 shadow-lg'>
-                        <NavLink to="/editor" className="text-white font-semibold">Éditeur</NavLink>
-                    </motion.li>
                 </ul>
             </nav>
         </motion.header>
