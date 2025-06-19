@@ -8,8 +8,14 @@ const Home = () => {
         {
             title: 'Typing',
             description: 'Améliore ta vitesse de frappe au clavier',
-            color: 'from-green-300 to-green-500',
+            color: 'from-sky-300 to-sky-400',
             link: '/typing'
+        },
+                {
+            title: 'Multiplication',
+            description: 'Apprendre les multiplications',
+            color: 'from-sky-300 to-sky-400',
+            link: '/multiplicator'
         },
     ];
 
