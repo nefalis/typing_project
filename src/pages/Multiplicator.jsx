@@ -53,7 +53,7 @@ const Multiplicator = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-pink-200 p-6 flex flex-col items-center">
+        <div className="min-h-screen bg-gradient-to-r from-blue-300 to-green-300 p-6 flex flex-col items-center">
             <h1 className="text-4xl font-extrabold text-purple-700 mb-6">Mission Multiplication</h1>
 
             {/* Boutons de sélection de mode */}
