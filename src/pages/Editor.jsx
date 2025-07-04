@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '../supabaseClient';
+import { useNavigate } from 'react-router-dom';
+
 
 const Editor = () => {
     const [lessons, setLessons] = useState([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [editingLesson, setEditingLesson] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchLessons();
@@ -62,6 +65,16 @@ const Editor = () => {
             initial={{ opacity: 0, y: -20 }} 
             animate={{ opacity: 1, y: 0 }}
         >
+
+            <div className="mb-6">
+                <button
+                    onClick={() => navigate('/typing')}
+                    className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded shadow-lg"
+                >
+                    Retour à la leçon
+                </button>
+            </div>
+
             <h2 className="text-4xl font-bold text-center text-white mb-6">Éditeur de leçon</h2>
             <form onSubmit={handleSubmit} className="mb-6">
                 <input 

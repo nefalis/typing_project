@@ -87,7 +87,7 @@ const Typing = () => {
                 </button>
             </div>
 
-            <div className="w-full h-80 border-4 border-peach bg-white text-black rounded-lg shadow-md p-4 text-3xl font-mono leading-relaxed">
+            <div className="w-full h-60 border-4 border-peach bg-white text-black rounded-lg shadow-md p-4 text-3xl font-mono leading-relaxed">
                 {inputText.split('').map((char, index) => (
                     <motion.span
                         key={index}
